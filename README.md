@@ -13,5 +13,8 @@ cargo run
 ## Self
 * Title case Self refers to the struct type itself.
 * Lowercase self refers to the instance of the structure.
+
 ## Upto
-Chapter 2
+Page 50
+
+Storing a Variable Amount of Data with Vectors
