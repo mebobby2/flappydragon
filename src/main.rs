@@ -1,6 +1,17 @@
+use std::io::stdin;
+
+fn what_is_your_name() -> String {
+    let mut your_name = String::new();
+    stdin()
+        .read_line(&mut your_name)
+        .expect("Failed to read line");
+    your_name
+        .trim()
+        .to_lowercase()
+}
+
 fn main() {
-    let my_list = ["One", "Two", "Three"];
-    for num in &my_list {
-        println!("{}", num)
-    }
+    println!("Hello, what's your name?");
+    let name = what_is_your_name();
+    println!("Hello, {}", name);
 }
