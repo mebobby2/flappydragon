@@ -15,6 +15,4 @@ cargo run
 * Lowercase self refers to the instance of the structure.
 
 ## Upto
-Page 50
-
-Storing a Variable Amount of Data with Vectors
+Chapter 3
