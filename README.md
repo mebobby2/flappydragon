@@ -64,6 +64,10 @@ What ? does here is equivalent to the match statement above with an addition. In
 * Title case Self refers to the struct type itself.
 * Lowercase self refers to the instance of the structure.
 
+## Book source code
+
+https://github.com/thebracket/HandsOnRust
+
 ## Upto
 Page 84
 

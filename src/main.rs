@@ -10,34 +10,53 @@ const SCREEN_WIDTH: i32 = 80;
 const SCREEN_HEIGHT: i32 = 50;
 const FRAME_DURATION: f32 = 75.0;
 
+const DRAGON_FRAMES : [u16; 6] = [ 64, 1, 2, 3, 2, 1 ];
+
 struct Player {
     x: i32,
-    y: i32,
+    y: f32,
     velocity: f32,
+    frame: usize // Usize to index arrays
 }
 
 impl Player {
     fn new(x: i32, y: i32) -> Self {
         Player {
             x,
-            y,
+            y: y as f32,
             velocity: 0.0,
+            frame: 0
         }
     }
 
     fn render(&mut self, ctx: &mut BTerm) {
-        ctx.set(0, self.y, YELLOW, BLACK, to_cp437('@'));
+        ctx.set_active_console(1);
+        ctx.cls();
+        ctx.set_fancy(
+            PointF::new(0.0, self.y),
+            1,
+            Degrees::new(0.0),
+            PointF::new(2.0, 2.0),
+            WHITE,
+            NAVY,
+            DRAGON_FRAMES[self.frame]
+        );
+        ctx.set_active_console(0);
+        // ctx.set(0, self.y, YELLOW, BLACK, to_cp437('@'));
     }
 
     fn gravity_and_move(&mut self) {
         if self.velocity < 2.0 {
             self.velocity += 0.2;
         }
-        self.y += self.velocity as i32;
-        self.x += 1;
-        if self.y < 0 {
-            self.y = 0;
+        self.y += self.velocity;
+        if self.y < 0.0 {
+            self.y = 0.0;
         }
+
+        self.x += 1;
+        self.frame += 1;
+        self.frame = self.frame % 6;
     }
 
     fn flap(&mut self) {
@@ -103,7 +122,6 @@ impl State {
         ctx.print_centered(5, "Welcome to Flappy Dragon");
         ctx.print_centered(8, "(P) Play Game");
         ctx.print_centered(9, "(Q) Quit Game");
-
         if let Some(key) = ctx.key {
             match key {
                 VirtualKeyCode::P => self.restart(),
@@ -181,6 +199,10 @@ impl Obstacle {
 fn main() -> BError {
     let context = BTermBuilder::simple80x50()
         .with_title("Flappy Dragon")
+        .with_font("../resources/flappy32.png", 32, 32)
+        // .with_simple_console(SCREEN_WIDTH, SCREEN_HEIGHT, "../resources/flappy32.png")
+        .with_fancy_console(SCREEN_WIDTH, SCREEN_HEIGHT, "../resources/flappy32.png")
+        // .with_tile_dimensions(16, 16)
         .build()?;
 
     main_loop(context, State::new())
