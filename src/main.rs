@@ -10,13 +10,13 @@ const SCREEN_WIDTH: i32 = 80;
 const SCREEN_HEIGHT: i32 = 50;
 const FRAME_DURATION: f32 = 75.0;
 
-const DRAGON_FRAMES : [u16; 6] = [ 64, 1, 2, 3, 2, 1 ];
+const DRAGON_FRAMES: [u16; 6] = [64, 1, 2, 3, 2, 1];
 
 struct Player {
     x: i32,
     y: f32,
     velocity: f32,
-    frame: usize // Usize to index arrays
+    frame: usize, // Usize to index arrays
 }
 
 impl Player {
@@ -25,7 +25,7 @@ impl Player {
             x,
             y: y as f32,
             velocity: 0.0,
-            frame: 0
+            frame: 0,
         }
     }
 
@@ -39,7 +39,7 @@ impl Player {
             PointF::new(2.0, 2.0),
             WHITE,
             NAVY,
-            DRAGON_FRAMES[self.frame]
+            DRAGON_FRAMES[self.frame],
         );
         ctx.set_active_console(0);
         // ctx.set(0, self.y, YELLOW, BLACK, to_cp437('@'));
@@ -104,7 +104,7 @@ impl State {
             self.score += 1;
             self.obstacle = Obstacle::new(self.player.x + SCREEN_WIDTH, self.score);
         }
-        if self.player.y > SCREEN_HEIGHT || self.obstacle.hit_obstacle(&self.player) {
+        if self.player.y as i32 > SCREEN_HEIGHT || self.obstacle.hit_obstacle(&self.player) {
             self.mode = GameMode::End;
         }
     }
@@ -189,10 +189,9 @@ impl Obstacle {
 
     fn hit_obstacle(&self, player: &Player) -> bool {
         let half_size = self.size / 2;
-        let does_x_match = player.x == self.x;
-        let player_above_gap = player.y < self.gap_y - half_size;
-        let player_below_gap = player.y > self.gap_y + half_size;
-        does_x_match && (player_above_gap || player_below_gap)
+        player.x == self.x
+            && ((player.y as i32) < self.gap_y - half_size
+                || player.y as i32 > self.gap_y + half_size)
     }
 }
 
