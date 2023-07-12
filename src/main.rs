@@ -11,6 +11,7 @@ const SCREEN_HEIGHT: i32 = 25;
 const FRAME_DURATION: f32 = 75.0;
 
 const DRAGON_FRAMES: [u16; 6] = [64, 1, 2, 3, 2, 1];
+const DRAGON_START_POSITION_Y: i32 = 13;
 
 struct Player {
     x: i32,
@@ -75,7 +76,7 @@ impl State {
     fn new() -> Self {
         State {
             mode: GameMode::Menu,
-            player: Player::new(5, 25),
+            player: Player::new(5, DRAGON_START_POSITION_Y),
             frame_time: 0.0,
             obstacle: Obstacle::new(SCREEN_WIDTH, 0),
             score: 0,
@@ -110,7 +111,7 @@ impl State {
     }
 
     fn restart(&mut self) {
-        self.player = Player::new(5, 25);
+        self.player = Player::new(5, DRAGON_START_POSITION_Y);
         self.frame_time = 0.0;
         self.obstacle = Obstacle::new(SCREEN_WIDTH, 0);
         self.mode = GameMode::Playing;
