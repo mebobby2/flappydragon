@@ -42,6 +42,7 @@ impl Player {
             NAVY,
             DRAGON_FRAMES[self.frame],
         );
+        ctx.set_all_bg_alpha(0.0);
         ctx.set_active_console(0);
         // ctx.set(0, self.y, YELLOW, BLACK, to_cp437('@'));
     }
