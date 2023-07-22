@@ -72,5 +72,3 @@ https://github.com/thebracket/HandsOnRust
 Page 84
 
 Part II
-
-Before that, fix up the game to your liking :)
